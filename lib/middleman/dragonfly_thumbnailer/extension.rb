@@ -54,7 +54,7 @@ module Middleman
           if environment == :development
             url = image.b64_data
           else
-            url = extensions[:dragonfly_thumbnailer].build_path(image)
+            url = File.join("/", images_dir, extensions[:dragonfly_thumbnailer].build_path(image))
           end
 
           image_tag(url, options)

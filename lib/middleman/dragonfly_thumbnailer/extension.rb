@@ -9,6 +9,7 @@ module Middleman
         super
         @images = []
         configure_dragonfly
+
       end
 
       def absolute_source_path(path)
@@ -33,6 +34,7 @@ module Middleman
         image = ::Dragonfly.app.fetch_file(absolute_path)
         image.meta['original_path'] = path
         image.meta['geometry'] = geometry
+        image.encode(image.format, '-quality 100%')
         image = image.thumb(geometry)
         images << image
         image
@@ -54,7 +56,7 @@ module Middleman
 
         def thumb_url(path, geometry, options = {})
           image = extensions[:dragonfly_thumbnailer].thumb(path, geometry)
-          return unless image          
+          return unless image
 
           if environment == :development
             url = image.b64_data
